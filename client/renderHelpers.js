@@ -1,18 +1,18 @@
-import {fetchAllPlayers} from './ajaxHelpers';
+import { fetchAllPlayers, fetchSinglePlayer } from "./ajaxHelpers";
 
-const playerContainer = document.getElementById('all-players-container');
-const newPlayerFormContainer = document.getElementById('new-player-form');
+const playerContainer = document.getElementById("all-players-container");
+const newPlayerFormContainer = document.getElementById("new-player-form");
 
 export const renderAllPlayers = (playerList) => {
   // First check if we have any data before trying to render it!
-  if(!playerList || !playerList.length) {
-    playerContainer.innerHTML = '<h3>No players to display!</h3>';
+  if (!playerList || !playerList.length) {
+    playerContainer.innerHTML = "<h3>No players to display!</h3>";
     return;
   }
 
   // Loop through the list of players, and construct some HTML to display each one
-  let playerContainerHTML = '';
-  playerList.map(pup => {
+  let playerContainerHTML = "";
+  playerList.map((pup) => {
     let pupHTML = `
       <div class="single-player-card">
         <div class="header-info">
@@ -32,18 +32,18 @@ export const renderAllPlayers = (playerList) => {
   // Now that the HTML for all players has been added to the DOM,
   // we want to grab those "See details" buttons on each player
   // and attach a click handler to each one
-  let detailButtons = [...document.getElementsByClassName('detail-button')];
-  detailButtons.forEach(button => {
-    button.addEventListener('click', async () => {
-      /*
-        YOUR CODE HERE
-      */
+  let detailButtons = [...document.getElementsByClassName("detail-button")];
+  detailButtons.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const buttonId = event.target.dataset.id;
+      const player = await fetchSinglePlayer(buttonId);
+      renderSinglePlayer(player);
     });
   });
 };
 
 export const renderSinglePlayer = (playerObj) => {
-  if(!playerObj || !playerObj.id) {
+  if (!playerObj || !playerObj.id) {
     playerContainer.innerHTML = "<h3>Couldn't find data for this player!</h3>";
     return;
   }
@@ -54,15 +54,17 @@ export const renderSinglePlayer = (playerObj) => {
         <p class="pup-title">${playerObj.name}</p>
         <p class="pup-number">#${playerObj.id}</p>
       </div>
-      <p>Team: ${playerObj.team ? playerObj.team.name : 'Unassigned'}</p>
+      <p>Team: ${playerObj.team ? playerObj.team.name : "Unassigned"}</p>
       <p>Breed: ${playerObj.breed}</p>
-      <img src="${playerObj.imageUrl}" alt="photo of ${playerObj.name} the puppy">
+      <img src="${playerObj.imageUrl}" alt="photo of ${
+    playerObj.name
+  } the puppy">
       <button id="see-all">Back to all players</button>
     </div>
   `;
 
   playerContainer.innerHTML = pupHTML;
-}
+};
 
 export const renderNewPlayerForm = () => {
   let formHTML = `
@@ -76,10 +78,10 @@ export const renderNewPlayerForm = () => {
   `;
   newPlayerFormContainer.innerHTML = formHTML;
 
-  let form = document.querySelector('#new-player-form > form');
-  form.addEventListener('submit', async (event) => {
+  let form = document.querySelector("#new-player-form > form");
+  form.addEventListener("submit", async (event) => {
     /*
       YOUR CODE HERE
     */
   });
-}
+};

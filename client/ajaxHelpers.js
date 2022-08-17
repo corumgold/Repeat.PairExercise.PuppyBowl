@@ -10,7 +10,14 @@ export const fetchAllPlayers = async () => {
   }
 };
 
-export const fetchSinglePlayer = async (playerId) => {};
+export const fetchSinglePlayer = async (playerId) => {
+  try {
+    const player = await axios.get(`/api/players/${playerId}`);
+    return player.data;
+  } catch (err) {
+    console.error("Couldn't find the player!");
+  }
+};
 
 export const addNewPlayer = async (playerObj) => {};
 
