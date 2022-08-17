@@ -64,6 +64,12 @@ export const renderSinglePlayer = (playerObj) => {
   `;
 
   playerContainer.innerHTML = pupHTML;
+
+  const backButton = document.getElementById("see-all");
+  backButton.addEventListener("click", async () => {
+    const players = await fetchAllPlayers();
+    renderAllPlayers(players);
+  });
 };
 
 export const renderNewPlayerForm = () => {
