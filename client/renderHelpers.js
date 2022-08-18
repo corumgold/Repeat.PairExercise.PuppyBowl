@@ -2,6 +2,7 @@ import {
   addNewPlayer,
   fetchAllPlayers,
   fetchSinglePlayer,
+  removePlayer,
 } from "./ajaxHelpers";
 
 const playerContainer = document.getElementById("all-players-container");
@@ -25,6 +26,7 @@ export const renderAllPlayers = (playerList) => {
         </div>
         <img src="${pup.imageUrl}" alt="photo of ${pup.name} the puppy">
         <button class="detail-button" data-id=${pup.id}>See details</button>
+        <button class="remove-button" data-id=${pup.id}>Remove from roster</button>
       </div>
     `;
     playerContainerHTML += pupHTML;
@@ -42,6 +44,15 @@ export const renderAllPlayers = (playerList) => {
       const buttonId = event.target.dataset.id;
       const player = await fetchSinglePlayer(buttonId);
       renderSinglePlayer(player);
+    });
+  });
+
+  let removeButtons = [...document.getElementsByClassName("remove-button")];
+  removeButtons.forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const buttonId = event.target.dataset.id;
+      await removePlayer(buttonId);
+      renderAllPlayers(await fetchAllPlayers());
     });
   });
 };

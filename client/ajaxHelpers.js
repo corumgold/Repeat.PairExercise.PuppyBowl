@@ -21,10 +21,16 @@ export const fetchSinglePlayer = async (playerId) => {
 
 export const addNewPlayer = async (playerObj) => {
   try {
-    const newPlayer = await axios.post("/api/players", playerObj);
+    await axios.post("/api/players", playerObj);
   } catch (err) {
     console.error(err);
   }
 };
 
-export const removePlayer = async (playerId) => {};
+export const removePlayer = async (playerId) => {
+    try {
+      await axios.delete(`/api/players/${playerId}`)
+  } catch (err) {
+    console.error(err);
+  }
+};
