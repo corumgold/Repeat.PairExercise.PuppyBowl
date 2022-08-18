@@ -1,4 +1,8 @@
-import { fetchAllPlayers, fetchSinglePlayer } from "./ajaxHelpers";
+import {
+  addNewPlayer,
+  fetchAllPlayers,
+  fetchSinglePlayer,
+} from "./ajaxHelpers";
 
 const playerContainer = document.getElementById("all-players-container");
 const newPlayerFormContainer = document.getElementById("new-player-form");
@@ -86,8 +90,16 @@ export const renderNewPlayerForm = () => {
 
   let form = document.querySelector("#new-player-form > form");
   form.addEventListener("submit", async (event) => {
-    /*
-      YOUR CODE HERE
-    */
+    //stop button from refreshing the page
+    event.preventDefault();
+    //grab the name and breed from the form
+    const dogName = form.elements.name.value;
+    const dogBreed = form.elements.breed.value;
+    //add the new pup into the db
+    await addNewPlayer({ name: dogName, breed: dogBreed });
+    //get the list of players
+    renderAllPlayers(await fetchAllPlayers());
+    form.elements.name.value = "";
+    form.elements.breed.value = "";
   });
 };
